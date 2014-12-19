@@ -749,7 +749,7 @@ static int __slow_addr_add_del(struct lacp_port *lacp_port, bool add)
 	sa = (struct sockaddr *) &ifr.ifr_addr;
 	sa->sa_family = AF_UNSPEC;
 	memcpy(sa->sa_data, slow_addr, sizeof(slow_addr));
-	memcpy(ifr.ifr_name, devname, strlen(devname));
+	strncpy(ifr.ifr_name, devname, IFNAMSIZ);
 	ret = ioctl(lacp_port->sock, add ? SIOCADDMULTI : SIOCDELMULTI, &ifr);
 	if (ret == -1) {
 		teamd_log_err("ioctl %s failed.",
